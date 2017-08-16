@@ -208,7 +208,13 @@ public class OrientationModule extends ReactContextBaseJavaModule implements Lif
 
     @Override
     public void onHostResume() {
-        mHostActive = true;
+        final Activity activity = getCurrentActivity();
+
+        if (activity == null) {
+            FLog.e(ReactConstants.TAG, "no activity to register receiver");
+            return;
+        }
+        activity.registerReceiver(receiver, new IntentFilter("onConfigurationChanged"));
     }
 
     @Override
@@ -218,6 +224,7 @@ public class OrientationModule extends ReactContextBaseJavaModule implements Lif
 
     @Override
     public void onHostDestroy() {
-        mHostActive = false;
+
+        }
     }
 }
